@@ -1,0 +1,16 @@
+version: '2'
+services:
+    montisolteste03-app:
+        image: montisolteste03
+        external_links:
+            - montisolteste03-postgresql:postgresql
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/MontisolTeste03
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    montisolteste03-postgresql:
+        extends:
+            file: postgresql.yml
+            service: montisolteste03-postgresql

@@ -1,0 +1,54 @@
+{
+  "relationships": [
+    {
+      "relationshipId": 1,
+      "relationshipName": "estado",
+      "otherEntityName": "estado",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id"
+    }
+  ],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "minlength",
+        "maxlength",
+        "pattern"
+      ],
+      "fieldValidateRulesMinlength": 2,
+      "fieldValidateRulesMaxlength": 200,
+      "fieldValidateRulesPattern": "^[a-zA-Z0-9_\\\\.\\\\s\\\\-\\\\&]*$"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "codigoIBGE",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "minlength",
+        "maxlength",
+        "pattern"
+      ],
+      "fieldValidateRulesMinlength": 2,
+      "fieldValidateRulesMaxlength": 200,
+      "fieldValidateRulesPattern": "^[a-zA-Z0-9_\\\\.\\\\s\\\\-\\\\&]*$"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "INATIVO,ATIVO",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "changelogDate": "20160616193627",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}

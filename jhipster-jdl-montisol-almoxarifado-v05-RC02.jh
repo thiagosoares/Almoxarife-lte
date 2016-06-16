@@ -1,0 +1,302 @@
+
+/**Catalogo de Material*/
+//#fill: #eee8d5; #fdf6e3
+entity Produto {
+	id Long,
+    identificacao String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    codigoBarras String,
+	  descricao String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    fabricante String,
+    valorPadrao Float required,
+    tipo TipoMaterial required,
+    unidadeEntrada UnidadeMedida required,
+    unidadeRetirada UnidadeMedida required,
+    observacoes String,
+    status Status required,
+    estoqueMinimo Long required,
+    estoqueMaximo Long required,
+    estoqueTotal Long,
+    estoqueDisponivel Long,
+    estoqueIndisponivel Long
+}
+
+/**Categorias / Grupos de Materiais*/
+entity CategoriaProduto {
+	id Long,
+	nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    status Status required
+}
+
+/**Compra de Materiais. Formará o Histórico*/
+entity Compra {
+	id Long,
+    descricao String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    data LocalDate required,
+    totalItens Integer,
+    valorTotal Float,
+    observacoes String
+}
+
+entity ItemCompra {
+	id Long,
+    item Integer required,
+    quantidade Integer required,
+    valor Float required
+}
+
+/**
+ * Colaborador, Fornecedor,
+ * Empresa, ColaboradorEmpresa
+ */
+entity Pessoa {
+	id Long,
+    //Fisica
+    nome String,
+    cpf Integer,
+    rg Integer,
+    dataNascimento LocalDate,
+    sexo Sexo,
+    //Juridica
+    nomeFantasia String,
+    razaoSocial String,
+    cnpj String,
+    instricaoEstadual String,
+    //Comuns
+    tipoPessoa TipoPessoa required,
+    papelPessoa PapelPessoa required,
+    email String
+}
+
+entity Endereco {
+	id Long
+    cep String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    rua String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    numero String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    complemento String,
+    bairro String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$")
+}
+
+entity Telefone {
+	id Long,
+    ddd String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    numero String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    tipo TipoTelefone required
+}
+
+/**Contato na Empresa */
+entity Contato {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    email String
+}
+
+
+/**Localizacoes*/
+entity Polo {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$")
+}
+
+/** Os setores da empresa.
+ * para onde os Produtos pode ser enviados*/
+entity Setor {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    descricao String
+}
+
+entity Almoxarifado {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    descricao String
+}
+
+
+/*Alteracoes de Estoque*/
+entity AlteracaoEstoque {
+	id Long,
+    dataOperacao LocalDate required,
+    tipo TipoAlteracaoEstoque required,
+    tipoEntrada TipoEntradaEstoque,
+    tipoRetirada TipoRetiradaEstoque
+}
+entity ItemAlteracaoEstoque {
+	id Long,
+    sequenciaVisual Integer required,
+    quantidade Integer required
+}
+
+/**Será o Historico de Movs do Produto*/
+entity MovimentacaoEstoque {
+	id Long,
+    tipo TipoMovimentacao required,
+    dataSaida LocalDate required,
+    dataRetorno LocalDate
+}
+
+/**APOIO*/
+entity Estado {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    uf String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    codigoIBGE String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    status Status required
+}
+entity Municipio {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    codigoIBGE String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    status Status required
+}
+
+/*Enuns*/
+
+enum TipoAlteracaoEstoque {
+    ENTRADA, RETIRADA
+}
+enum TipoMaterial {
+    CONSUMO, PERMANENTE
+}
+enum UnidadeMedida {
+    UNIDADE, CAIXA, PACOTE, PESO, PECA, PAR, TAMANHO
+}
+enum TipoMovimentacao {
+	TRANSFERENCIA,
+    //Empresta para uso
+    EMPRESTIMO,
+    TODO
+}
+enum TipoEntradaEstoque {
+    // Automatica quando ocorre uma Compra
+    COMPRA,
+    //Entre Almoxarifados
+    TRANSTERENCIA,
+    //O Produto Permanente Volta
+    RETORNO_MOVIMENTACAO,
+    AJUSTE_SALDO,
+    OUTROS
+}
+enum TipoRetiradaEstoque {
+	//Consumo normal de Produtos tipo=Consumo
+    CONSUMO,
+    //Movimentacao de Produtos tipo=Permanente. Como Patrimonio
+    MOVIMENTACAO,
+    //Entre Almoxarifados
+    TRANSFERENCIA,
+    DEFEITO,
+    //Automatica para Cancelamento de Compras
+    COMPRA_CANCELADA,
+    AJUSTE_SALDO,
+    OUTROS
+}
+enum Status {
+	INATIVO, ATIVO
+}
+enum TipoPessoa {
+	FISICA, JURIDICA
+}
+enum PapelPessoa {
+	FORNECEDOR, COLABORADOR, COLABORADOR_EMPRESA, EMPRESA
+}
+enum TipoTelefone {
+	PRINCIPAL, CELULAR, COMERCIAL, FAX
+}
+
+enum Sexo {
+	MASCULINO, FEMININO
+}
+
+
+/*relationship*/
+relationship OneToOne {
+	Produto{categoria} to CategoriaProduto
+}
+relationship OneToOne {
+	Produto{localizacaoAtual} to Setor
+}
+
+relationship ManyToOne {
+	MovimentacaoEstoque{origem} to Setor
+}
+relationship ManyToOne {
+	MovimentacaoEstoque{destino} to Setor
+}
+
+/**relationship AlteracaoEstoque*/
+relationship OneToOne {
+	AlteracaoEstoque{movimentacao} to MovimentacaoEstoque
+}
+relationship ManyToOne {
+	AlteracaoEstoque{compra} to Compra
+}
+relationship ManyToOne {
+	AlteracaoEstoque{almoxarifado} to Almoxarifado
+}
+relationship OneToOne {
+	ItemAlteracaoEstoque{alteracao} to AlteracaoEstoque
+}
+relationship OneToOne {
+	ItemAlteracaoEstoque{produto} to Produto
+}
+
+relationship ManyToOne {
+	Compra{fornecedor} to Pessoa
+}
+relationship ManyToOne {
+	Compra{responsavel} to Pessoa
+}
+relationship OneToMany {
+	Compra{itens} to ItemCompra
+}
+relationship ManyToOne {
+	Compra{almoxarifado} to Almoxarifado
+}
+relationship ManyToOne {
+	ItemCompra{produto} to Produto
+}
+
+/**Pessoa*/
+relationship ManyToOne {
+	Pessoa{endereco} to Endereco
+}
+relationship OneToMany {
+	Pessoa{contato} to Contato
+}
+relationship OneToMany {
+	Pessoa{telefone} to Telefone
+}
+relationship ManyToOne {
+	Pessoa{empresa} to Pessoa
+}
+
+/**Endereco */
+relationship ManyToOne {
+	Endereco{estado} to Estado
+}
+relationship ManyToOne {
+	Endereco{municipio} to Municipio
+}
+relationship ManyToOne {
+	Municipio{estado} to Estado
+}
+
+relationship ManyToOne {
+	Setor{polo} to Polo
+}
+relationship ManyToOne {
+	Almoxarifado{polo} to Polo
+}
+relationship ManyToOne {
+	Polo{endereco} to Endereco
+}
+
+relationship ManyToOne {
+	Contato{telefone} to Telefone
+}
+
+paginate all with pagination
+//paginate A, C with infinite-scroll
+service all with serviceClass
+//service all with serviceImpl
+
+dto Produto, Compra, Pessoa, AlteracaoEstoque, MovimentacaoEstoque with mapstruct

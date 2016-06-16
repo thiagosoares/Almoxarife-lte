@@ -1,0 +1,28 @@
+
+entity Produto {
+	  nome String required minlength(1) maxlength(100) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    descricao String required,
+    estoque Long
+}
+
+entity Estado {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    uf String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    codigoIBGE String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    status Status required
+}
+entity Municipio {
+	id Long,
+    nome String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    codigoIBGE String required minlength(2) maxlength(200) pattern("^[a-zA-Z0-9_\\.\\s\\-\\&]*$"),
+    status Status required
+}
+
+enum Status {
+	INATIVO, ATIVO
+}
+
+relationship ManyToOne {
+	Municipio{estado} to Estado
+}

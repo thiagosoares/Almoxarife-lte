@@ -1,0 +1,36 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "minlength",
+        "maxlength",
+        "pattern"
+      ],
+      "fieldValidateRulesMinlength": 1,
+      "fieldValidateRulesMaxlength": 100,
+      "fieldValidateRulesPattern": "^[a-zA-Z0-9_\\\\.\\\\s\\\\-\\\\&]*$"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "estoque",
+      "fieldType": "Long"
+    }
+  ],
+  "changelogDate": "20160616193625",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}

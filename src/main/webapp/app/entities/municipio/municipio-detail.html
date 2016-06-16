@@ -1,0 +1,30 @@
+
+<div>
+    <h2><span>Municipio</span> {{vm.municipio.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Nome</span></dt>
+        <dd>
+            <span>{{vm.municipio.nome}}</span>
+        </dd>
+        <dt><span>Codigo IBGE</span></dt>
+        <dd>
+            <span>{{vm.municipio.codigoIBGE}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span translate="{{'montisolTeste03App.Status.' + vm.municipio.status}}">{{vm.municipio.status}}</span>
+        </dd>
+        <dt><span>Estado</span></dt>
+        <dd>
+            <a ui-sref="estado-detail({id:vm.municipio.estado.id})">{{vm.municipio.estado.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>
